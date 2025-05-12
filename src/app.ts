@@ -6,7 +6,9 @@ import authRouter from "./auth/auth.routes";
 
 import swaggerUi from "swagger-ui-express";
 // importando o arquivo json
-import swaggerJson from "./swagger.json";
+// import swaggerJson from "./swagger.json";
+
+import swaggerSpec from "./swagger";
 
 class App {
   public express: express.Application;
@@ -21,11 +23,13 @@ class App {
   // aqui é onde será feito as configurações do express
   private middleware(): void {
     this.express.use(express.json());
-    this.express.use(
-      "/api-docs", // é por onde acessaremos a doc no browser
-      swaggerUi.serve,
-      swaggerUi.setup(swaggerJson)
-    );
+    this.express.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // sendo agora na rota "docs" e o que será exibido é o "swaggerSpec" que é o conteúdo do arquivo "swagger.ts"
+
+    // this.express.use(
+    //   "/api-docs", // é por onde acessaremos a doc no browser
+    //   swaggerUi.serve,
+    //   swaggerUi.setup(swaggerJson)
+    // );
   }
 
   private async database() {
